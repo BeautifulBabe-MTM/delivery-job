@@ -7,18 +7,17 @@ export default function WelcomeScreen({ onAuthenticated }) {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            onAuthenticated(); // Обновляем состояние авторизации
-            navigation.navigate('Home'); // Перенаправляем на главный экран
-        }, 4000); // 4 секунды ожидания
+            onAuthenticated(); 
+            navigation.navigate('Home'); 
+        }, 4000); 
 
-        // Очищаем таймер при размонтировании компонента
         return () => clearTimeout(timer);
     }, [navigation, onAuthenticated]);
 
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Welcome!</Text>
-            <Text style={styles.subtitle}>You have successfully logged in or registered.</Text>
+            <Text style={styles.subtitle}>You have successfully logged in.</Text>
         </View>
     );
 }

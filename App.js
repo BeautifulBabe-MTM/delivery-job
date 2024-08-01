@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import * as Animatable from 'react-native-animatable';
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 import HomeScreen from './HomeScreen';
 import DeliveriesScreen from './DeliveriesScreen';
@@ -76,6 +77,13 @@ export default function App() {
     setIsAuthenticated(true);
   };
 
+  useEffect(() => {
+    const lockOrientation = async () => {
+      await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP);
+    };
+    lockOrientation();
+  }, []);
+
   return (
     <NavigationContainer>
       <StatusBar style="dark" />
@@ -89,15 +97,16 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   tabBar: {
-    backgroundColor: '#fff',
-    borderTopColor: '#ddd',
+    backgroundColor: '#fff5e1',
+    borderTopColor: '#e6e6fa',
     borderTopWidth: 1,
-    paddingBottom: 35, // Увеличиваем отступ снизу
-    height: 90, // Высота вкладок
-    paddingVertical: 5, // Отступы сверху и снизу
+    paddingBottom: 35,
+    height: 90,
+    paddingVertical: 5,
   },
   header: {
-    backgroundColor: '#ff6f61',
+    backgroundColor: '#a89ca9',
+    height: 80,
   },
   headerTitle: {
     fontWeight: 'bold',

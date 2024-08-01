@@ -5,7 +5,7 @@ import * as Animatable from 'react-native-animatable';
 
 export default function ProfileScreen({ setIsAuthenticated }) {
     const [modalVisible, setModalVisible] = useState(false);
-    const fadeAnim = new Animated.Value(0); // Initial opacity
+    const fadeAnim = new Animated.Value(0); 
 
     useEffect(() => {
         Animated.timing(fadeAnim, {
@@ -25,14 +25,12 @@ export default function ProfileScreen({ setIsAuthenticated }) {
     };
 
     const handleEditPress = () => {
-        // Логика для редактирования профиля
-        console.log('Edit profile pressed');
+        console.log('кнопка редактировать была нажата');
     };
 
     const handleLogoutPress = () => {
-        // Логика для выхода из аккаунта
-        console.log('Logout pressed');
-        setIsAuthenticated(false); // Меняем состояние авторизации
+        console.log('выхожу');
+        setIsAuthenticated(false); 
     };
 
     return (
@@ -44,7 +42,7 @@ export default function ProfileScreen({ setIsAuthenticated }) {
             <Modal
                 transparent={true}
                 visible={modalVisible}
-                animationType="none" // Убираем стандартную анимацию
+                animationType="none"
                 onRequestClose={() => setModalVisible(false)}
             >
                 <View style={styles.modalBackdrop}>
@@ -140,7 +138,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Background with slight opacity
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', 
     },
     modalContainer: {
         backgroundColor: '#fff',
@@ -158,11 +156,11 @@ const styles = StyleSheet.create({
     },
     modalButtonText: {
         fontSize: 18,
-        color: '#007bff', // Main color for text
+        color: '#007bff', 
         fontWeight: 'bold',
     },
     closeButton: {
-        color: '#ff4d4d', // Red color for close button
+        color: '#ff4d4d', 
         fontSize: 16,
     },
 });
