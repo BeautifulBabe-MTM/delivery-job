@@ -97,16 +97,18 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
   },
   tabBar: {
-    backgroundColor: '#fff5e1',
-    borderTopColor: '#e6e6fa',
+    backgroundColor: '#EBF4F6',
+    borderTopColor: '#EBF4F6',
     borderTopWidth: 1,
     paddingBottom: 35,
     height: 90,
     paddingVertical: 5,
   },
   header: {
-    backgroundColor: '#a89ca9',
+    backgroundColor: '#27374d',
     height: 80,
+    borderBottomWidth: 1,
+    borderBottomColor: '#27374D',
   },
   headerTitle: {
     fontWeight: 'bold',
