@@ -14,10 +14,9 @@ export default function ProfileScreen({ setIsAuthenticated }) {
     const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState(null);
     const fadeAnim = new Animated.Value(0);
 
-    // User data
     const worker = {
-        name: 'Виталик Филатов',
-        role: 'Delivery Driver',
+        name: 'Віталій Філатов',
+        role: 'Перевізник (до 20т.)',
         categories: ['A', 'A1', 'B', 'T'],
         phone: '+380 99 129 00 29',
         email: 'esheivznak@gmail.com',
@@ -48,7 +47,6 @@ export default function ProfileScreen({ setIsAuthenticated }) {
 
     const handleSavePress = () => {
         setIsEditing(false);
-        // Additional logic to save changes can be added here
     };
 
     const handleLogoutPress = () => {
@@ -59,7 +57,7 @@ export default function ProfileScreen({ setIsAuthenticated }) {
         if (Platform.OS === 'ios') {
             ActionSheetIOS.showActionSheetWithOptions(
                 {
-                    options: ['Cancel', 'Take Photo', 'Choose from Library'],
+                    options: ['Скасувати', 'Зробити фото', 'Вибрати з медіатеки'],
                     cancelButtonIndex: 0,
                 },
                 async (buttonIndex) => {
@@ -72,12 +70,12 @@ export default function ProfileScreen({ setIsAuthenticated }) {
             );
         } else {
             Alert.alert(
-                'Choose Photo',
+                'Виберіть Фото',
                 '',
                 [
-                    { text: 'Cancel', style: 'cancel' },
-                    { text: 'Take Photo', onPress: () => takePhoto() },
-                    { text: 'Choose from Library', onPress: () => pickImage() },
+                    { text: 'Скасувати', style: 'cancel' },
+                    { text: 'Зробити фото', onPress: () => takePhoto() },
+                    { text: 'Вибрати з медіатеки', onPress: () => pickImage() },
                 ]
             );
         }
@@ -94,7 +92,7 @@ export default function ProfileScreen({ setIsAuthenticated }) {
                 setProfileImage({ uri: result.uri });
             }
         } else {
-            Alert.alert('Camera Permission Required', 'Please enable camera permissions in settings.');
+            Alert.alert('Потрібен дозвіл камери', 'Увімкніть дозвіл камери в налаштуваннях.');
         }
     };
 
@@ -109,7 +107,7 @@ export default function ProfileScreen({ setIsAuthenticated }) {
                 setProfileImage({ uri: result.uri });
             }
         } else {
-            Alert.alert('Media Library Permission Required', 'Please enable media library permissions in settings.');
+            Alert.alert('Потрібен дозвіл медіатеки', 'Увімкніть дозволи медіа-бібліотеки в налаштуваннях.');
         }
     };
 
@@ -133,16 +131,19 @@ export default function ProfileScreen({ setIsAuthenticated }) {
                 <View style={styles.modalBackdrop}>
                     <Animated.View style={[styles.modalContainer, { opacity: fadeAnim }]}>
                         <TouchableOpacity style={styles.modalButton} onPress={handleEditPress}>
-                            <Text style={styles.modalButtonText}>Edit Profile</Text>
+                            <Icon name="edit" size={24} color="#000" />
+                            <Text style={styles.modalButtonText}>Редагувати профіль</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.modalButton} onPress={handleLogoutPress}>
-                            <Text style={styles.modalButtonText}>Logout</Text>
+                            <Icon name="exit-to-app" size={24} color="#000" />
+                            <Text style={styles.modalButtonText}>Вихід</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.modalButton}
                             onPress={() => setModalVisible(false)}
                         >
-                            <Text style={[styles.modalButtonText, styles.closeButton]}>Close</Text>
+                            <Icon name="close" size={24} color="#000" />
+                            <Text style={[styles.modalButtonText, styles.closeButton]}>Закрити</Text>
                         </TouchableOpacity>
                     </Animated.View>
                 </View>
@@ -162,18 +163,18 @@ export default function ProfileScreen({ setIsAuthenticated }) {
             </View>
             <Text style={styles.name}>{worker.name}</Text>
             <View style={styles.infoContainer}>
-                <Icon name="work" size={20} style={styles.icon} />
+                <Icon name="work" size={20} color="#4CAF50" style={styles.icon} />
                 <Text style={styles.info}>{worker.role}</Text>
             </View>
             <View style={styles.infoContainer}>
-                <Icon name="phone" size={20} style={styles.icon} />
+                <Icon name="phone" size={20} color="#4CAF50" style={styles.icon} />
                 <Text style={styles.info}>{worker.phone}</Text>
             </View>
             <View style={styles.infoContainer}>
-                <Icon name="email" size={20} style={styles.icon} />
+                <Icon name="email" size={20} color="#4CAF50" style={styles.icon} />
                 <Text style={styles.info}>{worker.email}</Text>
             </View>
-            <Text style={styles.categoriesTitle}>Categories:</Text>
+            <Text style={styles.categoriesTitle}>Категорії:</Text>
             <View style={styles.categoriesContainer}>
                 {worker.categories.map((category, index) => (
                     <View key={index} style={styles.categoryContainer}>
@@ -250,17 +251,16 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     info: {
-        fontSize: 18,
+        fontSize: 16,
         marginLeft: 10,
     },
     icon: {
-        color: '#000',
+        color: '#0e0e0e',
     },
     categoriesTitle: {
         fontSize: 18,
         fontWeight: 'bold',
-        marginTop: 20,
-        marginBottom: 10,
+        marginVertical: 10,
     },
     categoriesContainer: {
         flexDirection: 'row',
@@ -270,12 +270,12 @@ const styles = StyleSheet.create({
     categoryContainer: {
         backgroundColor: '#4CAF50',
         borderRadius: 15,
-        padding: 10,
+        padding: 5,
         margin: 5,
     },
     category: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 14,
     },
     modalBackdrop: {
         flex: 1,
