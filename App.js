@@ -37,11 +37,11 @@ const MainStack = ({ setIsAuthenticated }) => (
       tabBarIcon: ({ focused, color, size }) => {
         let iconPath;
 
-        if (route.name === 'Home') {
+        if (route.name === 'Головна') {
           iconPath = require('./src/icons/home.png');
-        } else if (route.name === 'Deliveries') {
+        } else if (route.name === 'Замовлення') {
           iconPath = require('./src/icons/deliveries.png');
-        } else if (route.name === 'Profile') {
+        } else if (route.name === 'Профіль') {
           iconPath = require('./src/icons/user.png');
         }
 
@@ -62,9 +62,9 @@ const MainStack = ({ setIsAuthenticated }) => (
       headerTitleAlign: 'center',
     })}
   >
-    <Tab.Screen name="Home" component={HomeScreen} />
-    <Tab.Screen name="Deliveries" component={DeliveriesScreen} />
-    <Tab.Screen name="Profile">
+    <Tab.Screen name="Головна" component={HomeScreen} />
+    <Tab.Screen name="Замовлення" component={DeliveriesScreen} />
+    <Tab.Screen name="Профіль">
       {(props) => <ProfileScreen {...props} setIsAuthenticated={setIsAuthenticated} />}
     </Tab.Screen>
   </Tab.Navigator>

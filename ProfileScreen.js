@@ -17,7 +17,7 @@ export default function ProfileScreen({ setIsAuthenticated }) {
     const worker = {
         name: 'Віталій Філатов',
         role: 'Перевізник (до 20т.)',
-        categories: ['A', 'A1', 'B', 'T'],
+        categories: ['B', 'С1', 'D'],
         phone: '+380 99 129 00 29',
         email: 'esheivznak@gmail.com',
     };
@@ -116,7 +116,7 @@ export default function ProfileScreen({ setIsAuthenticated }) {
             <StatusBar style="auto" />
             {isEditing && (
                 <TouchableOpacity style={styles.saveButton} onPress={handleSavePress}>
-                    <Text style={styles.saveButtonText}>Save</Text>
+                    <Text style={styles.saveButtonText}>Зберегти</Text>
                 </TouchableOpacity>
             )}
             <TouchableOpacity style={styles.menuButton} onPress={() => setModalVisible(true)}>
@@ -130,20 +130,19 @@ export default function ProfileScreen({ setIsAuthenticated }) {
             >
                 <View style={styles.modalBackdrop}>
                     <Animated.View style={[styles.modalContainer, { opacity: fadeAnim }]}>
+                        <TouchableOpacity
+                            style={styles.closeButtonContainer}
+                            onPress={() => setModalVisible(false)}
+                        >
+                            <Icon name="close" size={30} color="#000" />
+                        </TouchableOpacity>
                         <TouchableOpacity style={styles.modalButton} onPress={handleEditPress}>
                             <Icon name="edit" size={24} color="#000" />
                             <Text style={styles.modalButtonText}>Редагувати профіль</Text>
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.modalButton} onPress={handleLogoutPress}>
-                            <Icon name="exit-to-app" size={24} color="#000" />
-                            <Text style={styles.modalButtonText}>Вихід</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.modalButton}
-                            onPress={() => setModalVisible(false)}
-                        >
-                            <Icon name="close" size={24} color="#000" />
-                            <Text style={[styles.modalButtonText, styles.closeButton]}>Закрити</Text>
+                            <Icon name="exit-to-app" size={24} color="red" />
+                            <Text style={styles.logoutButtonText}>Вихід</Text>
                         </TouchableOpacity>
                     </Animated.View>
                 </View>
@@ -288,6 +287,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         padding: 20,
         alignItems: 'center',
+        position: 'relative',
+    },
+    closeButtonContainer: {
+        position: 'absolute',
+        top: 5,
+        right: 5,
     },
     modalButton: {
         padding: 10,
@@ -298,7 +303,9 @@ const styles = StyleSheet.create({
     modalButtonText: {
         fontSize: 18,
     },
-    closeButton: {
+    logoutButtonText: {
         color: 'red',
+        fontSize: 18,
+        fontWeight: 'bold',
     },
 });
