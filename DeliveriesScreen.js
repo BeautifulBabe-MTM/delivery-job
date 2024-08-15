@@ -68,14 +68,6 @@ export default function DeliveriesScreen() {
     }
   };
 
-  const handleStartDelivery = () => {
-    Alert.alert('Delivery Started');
-  };
-
-  const handleCompleteDelivery = () => {
-    Alert.alert('Delivery Completed');
-  };
-
   const handleAddNote = () => {
     Alert.alert('Add Note');
   };
@@ -89,10 +81,6 @@ export default function DeliveriesScreen() {
       });
       Alert.alert('Location Updated');
     }
-  };
-
-  const handleRequestHelp = () => {
-    Alert.alert('Help Requested');
   };
 
   const handleAcceptOrder = () => {
@@ -125,24 +113,6 @@ export default function DeliveriesScreen() {
         </MapView>
       )}
 
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={handleStartDelivery}>
-          <Text style={styles.buttonText}>Start Delivery</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleCompleteDelivery}>
-          <Text style={styles.buttonText}>Complete Delivery</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleAddNote}>
-          <Text style={styles.buttonText}>Add Note</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleUpdateLocation}>
-          <Text style={styles.buttonText}>Update Location</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={handleRequestHelp}>
-          <Text style={styles.buttonText}>Request Help</Text>
-        </TouchableOpacity>
-      </View>
-
       <Modal
         transparent={true}
         visible={modalVisible}
@@ -151,16 +121,16 @@ export default function DeliveriesScreen() {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Order #{orderInfo.id}</Text>
-            <Text style={styles.modalText}>Client: {orderInfo.clientName}</Text>
-            <Text style={styles.modalText}>Address: {orderInfo.address}</Text>
-            <Text style={styles.modalText}>Details: {orderInfo.details}</Text>
+            <Text style={styles.modalTitle}>Замовлення №{orderInfo.id}</Text>
+            <Text style={styles.modalText}>Клієнт: {orderInfo.clientName}</Text>
+            <Text style={styles.modalText}>Адреса: {orderInfo.address}</Text>
+            <Text style={styles.modalText}>Деталі: {orderInfo.details}</Text>
             <View style={styles.modalButtons}>
               <TouchableOpacity style={[styles.modalButton, styles.cancelButton]} onPress={handleCancelOrder}>
-                <Text style={styles.modalButtonText}>Cancel</Text>
+                <Text style={styles.modalButtonText}>Відмовитись</Text>
               </TouchableOpacity>
               <TouchableOpacity style={[styles.modalButton, styles.acceptButton]} onPress={handleAcceptOrder}>
-                <Text style={styles.modalButtonText}>Accept</Text>
+                <Text style={styles.modalButtonText}>Прийняти</Text>
               </TouchableOpacity>
             </View>
           </View>

@@ -8,7 +8,7 @@ export default function WelcomeScreen({ onAuthenticated }) {
     useEffect(() => {
         const timer = setTimeout(() => {
             onAuthenticated(); 
-            navigation.navigate('Home'); 
+            navigation.navigate('Головна'); 
         }, 4000); 
 
         return () => clearTimeout(timer);
@@ -16,8 +16,8 @@ export default function WelcomeScreen({ onAuthenticated }) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Welcome!</Text>
-            <Text style={styles.subtitle}>You have successfully logged in.</Text>
+            <Text style={styles.title}>Вітаємо!</Text>
+            <Text style={styles.subtitle}>Ви успішно увійшли до облікового запису.</Text>
         </View>
     );
 }

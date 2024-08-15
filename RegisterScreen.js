@@ -1,25 +1,29 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, useColorScheme } from 'react-native';
 
 export default function RegisterScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const colorScheme = useColorScheme(); // Получаем текущую тему
 
     const handleRegister = () => {
         if (password === confirmPassword) {
-            //логика для регистрации
+            // Логика для регистрации
 
-            navigation.navigate('Welcome'); 
+            navigation.navigate('Welcome');
         } else {
             alert('Passwords do not match');
         }
     };
 
+    // Определяем стили для светлой и темной тем
+    const styles = colorScheme === 'dark' ? darkStyles : lightStyles;
+
     return (
         <ScrollView contentContainerStyle={styles.container}>
             <View style={styles.form}>
-                <Text style={styles.title}>Create an Account</Text>
+                <Text style={styles.title}>Реєстрація</Text>
                 <TextInput
                     style={styles.input}
                     placeholder="Email"
@@ -27,44 +31,47 @@ export default function RegisterScreen({ navigation }) {
                     onChangeText={setEmail}
                     keyboardType="email-address"
                     autoCapitalize="none"
-                    placeholderTextColor="#888" 
+                    placeholderTextColor={colorScheme === 'dark' ? '#aaa' : '#888'}
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Password"
+                    placeholder="Пароль"
                     value={password}
                     onChangeText={setPassword}
                     secureTextEntry
-                    placeholderTextColor="#888" 
+                    autoCapitalize="none"
+                    placeholderTextColor={colorScheme === 'dark' ? '#aaa' : '#888'}
                 />
                 <TextInput
                     style={styles.input}
-                    placeholder="Confirm Password"
+                    placeholder="Повторіть пароль"
                     value={confirmPassword}
                     onChangeText={setConfirmPassword}
                     secureTextEntry
-                    placeholderTextColor="#888" 
+                    autoCapitalize="none"
+                    placeholderTextColor={colorScheme === 'dark' ? '#aaa' : '#888'}
                 />
                 <TouchableOpacity style={styles.button} onPress={handleRegister}>
-                    <Text style={styles.buttonText}>Register</Text>
+                    <Text style={styles.buttonText}>Зареєструватися</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Login')}>
-                    <Text style={styles.linkText}>Already have an account? Login</Text>
+                    <Text style={styles.linkText}>Вже є обліковий запис? Увійдіть</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
     );
 }
 
-const styles = StyleSheet.create({
+// Стили для светлой темы
+const lightStyles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#f8f9fa', 
+        backgroundColor: '#f8f9fa',
         justifyContent: 'center',
         padding: 20,
     },
     form: {
-        backgroundColor: '#ffffff', 
+        backgroundColor: '#ffffff',
         borderRadius: 10,
         padding: 20,
         shadowColor: '#000000',
@@ -87,7 +94,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         marginBottom: 15,
         paddingHorizontal: 15,
-        backgroundColor: '#ffffff', 
+        backgroundColor: '#ffffff',
     },
     button: {
         backgroundColor: '#007bff',
@@ -106,7 +113,64 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
     linkText: {
-        color: '#007bff', 
+        color: '#007bff',
+        fontSize: 16,
+        textDecorationLine: 'underline',
+    },
+});
+
+// Стили для темной темы
+const darkStyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#121212',
+        justifyContent: 'center',
+        padding: 20,
+    },
+    form: {
+        backgroundColor: '#1f1f1f',
+        borderRadius: 10,
+        padding: 20,
+        shadowColor: '#000000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 5,
+    },
+    title: {
+        fontSize: 28,
+        fontWeight: 'bold',
+        color: '#ffffff',
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+    input: {
+        height: 45,
+        borderColor: '#444444',
+        borderWidth: 1,
+        borderRadius: 8,
+        marginBottom: 15,
+        paddingHorizontal: 15,
+        backgroundColor: '#333333',
+    },
+    button: {
+        backgroundColor: '#1e88e5',
+        paddingVertical: 15,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    buttonText: {
+        color: '#ffffff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    link: {
+        alignItems: 'center',
+        marginTop: 10,
+    },
+    linkText: {
+        color: '#1e88e5',
         fontSize: 16,
         textDecorationLine: 'underline',
     },
