@@ -17,7 +17,7 @@ export default function ProfileScreen({ setIsAuthenticated }) {
     const worker = {
         name: 'Віталій Філатов',
         role: 'Перевізник (до 20т.)',
-        categories: ['B', 'С1', 'D'],
+        categories: ['-', '-', 'D'],
         phone: '+380 99 129 00 29',
         email: 'esheivznak@gmail.com',
     };

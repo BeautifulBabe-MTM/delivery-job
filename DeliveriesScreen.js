@@ -19,6 +19,7 @@ export default function DeliveriesScreen() {
     clientName: 'Денис Микрошниченко',
     address: 'Вокзальна площа 12',
     details: 'Доставка на машине до 20 тонн',
+    category: 'D',
   });
 
   useEffect(() => {
@@ -88,6 +89,10 @@ export default function DeliveriesScreen() {
     Alert.alert('Order Accepted');
   };
 
+  const handleButtonPress = () => {
+    setModalVisible(true);
+  }
+
   const handleCancelOrder = () => {
     setModalVisible(false);
     Alert.alert('Order Cancelled');
@@ -125,6 +130,9 @@ export default function DeliveriesScreen() {
             <Text style={styles.modalText}>Клієнт: {orderInfo.clientName}</Text>
             <Text style={styles.modalText}>Адреса: {orderInfo.address}</Text>
             <Text style={styles.modalText}>Деталі: {orderInfo.details}</Text>
+            <Text style={styles.modalText}>Потрібна машина: {orderInfo.category}</Text>
+          </View>
+          <View style={styles.modalContentCenter}>
             <View style={styles.modalButtons}>
               <TouchableOpacity style={[styles.modalButton, styles.cancelButton]} onPress={handleCancelOrder}>
                 <Text style={styles.modalButtonText}>Відмовитись</Text>
@@ -136,7 +144,12 @@ export default function DeliveriesScreen() {
           </View>
         </View>
       </Modal>
-
+      <TouchableOpacity
+        style={styles.newButton}
+        onPress={handleButtonPress}
+      >
+        <Text style={styles.newButtonText}>Заказ</Text>
+      </TouchableOpacity>
       <StatusBar style="auto" />
     </Animatable.View>
   );
@@ -184,7 +197,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: '80%',
     maxWidth: 400,
+    alignItems: 'left',
+    borderBottomEndRadius: 0,
+    borderBottomStartRadius: 0,
+  },
+  modalContentCenter: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    maxWidth: 400,
     alignItems: 'center',
+    borderTopEndRadius: 0,
+    borderTopStartRadius: 0,
   },
   modalTitle: {
     fontSize: 18,
@@ -197,12 +222,12 @@ const styles = StyleSheet.create({
   },
   modalButtons: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 10,
   },
   modalButton: {
     padding: 10,
     borderRadius: 5,
-    width: 100,
+    width: 150,
     alignItems: 'center',
   },
   cancelButton: {
@@ -215,5 +240,20 @@ const styles = StyleSheet.create({
   modalButtonText: {
     color: '#fff',
     fontSize: 16,
+  },
+
+
+  newButton: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor: '#27374d',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  newButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
