@@ -1,15 +1,42 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, useColorScheme } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, useColorScheme, Alert } from 'react-native';
 
 export default function RegisterScreen({ navigation }) {
     const [email, setEmail] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [name, setName] = useState('');
+    const [surname, setSurname] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const colorScheme = useColorScheme(); // Получаем текущую тему
+    const colorScheme = useColorScheme();
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
         if (password === confirmPassword) {
-            // Логика для регистрации
+            try {
+                const response = await fetch('http://localhost:3000/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email,
+                        phoneNumber,
+                        name,
+                        surname,
+                        password
+                    }),
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    Alert.alert('Успіх ✔️', result.message);
+                    navigation.navigate('Welcome');
+                } else {
+                    Alert.alert('Помилка 🚫', result.message || 'Невдала реєстрація');
+                }
+            } catch (error) {
+                Alert.alert('Помилка 🚫', `Невдала спроба під'єднатися до серверу`);
+            }
 
             navigation.navigate('Welcome');
         } else {
@@ -17,7 +44,6 @@ export default function RegisterScreen({ navigation }) {
         }
     };
 
-    // Определяем стили для светлой и темной тем
     const styles = colorScheme === 'dark' ? darkStyles : lightStyles;
 
     return (
@@ -31,6 +57,33 @@ export default function RegisterScreen({ navigation }) {
                     onChangeText={setEmail}
                     keyboardType="email-address"
                     autoCapitalize="none"
+                    placeholderTextColor={colorScheme === 'dark' ? '#aaa' : '#888'}
+                />
+                 <TextInput
+                    style={styles.input}
+                    placeholder="Номер телефону"
+                    value={phoneNumber}
+                    onChangeText={setPhoneNumber}
+                    keyboardType="phone-pad"
+                    autoCapitalize="none"
+                    placeholderTextColor={colorScheme === 'dark' ? '#aaa' : '#888'}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Ваше ім'я"
+                    value={name}
+                    onChangeText={setName}
+                    keyboardType="default"
+                    autoCapitalize="words"
+                    placeholderTextColor={colorScheme === 'dark' ? '#aaa' : '#888'}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Ваше прізвище"
+                    value={surname}
+                    onChangeText={setSurname}
+                    keyboardType="default"
+                    autoCapitalize="words"
                     placeholderTextColor={colorScheme === 'dark' ? '#aaa' : '#888'}
                 />
                 <TextInput
@@ -62,7 +115,6 @@ export default function RegisterScreen({ navigation }) {
     );
 }
 
-// Стили для светлой темы
 const lightStyles = StyleSheet.create({
     container: {
         flex: 1,
@@ -119,7 +171,6 @@ const lightStyles = StyleSheet.create({
     },
 });
 
-// Стили для темной темы
 const darkStyles = StyleSheet.create({
     container: {
         flex: 1,

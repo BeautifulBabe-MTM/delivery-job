@@ -28,6 +28,9 @@ const AuthStack = ({ onAuthenticated }) => (
     <Stack.Screen name="Welcome">
       {(props) => <WelcomeScreen {...props} onAuthenticated={onAuthenticated} />}
     </Stack.Screen>
+    <Stack.Screen name="Головна">
+      {(props) => <HomeScreen {...props} onAuthenticated={onAuthenticated} />}
+    </Stack.Screen>
   </Stack.Navigator>
 );
 
