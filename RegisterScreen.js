@@ -3,7 +3,6 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, useCol
 import * as WebBrowser from 'expo-web-browser';  
 import * as Linking from 'expo-linking';
 
-
 export default function RegisterScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -46,29 +45,27 @@ export default function RegisterScreen({ navigation }) {
     };
 
     const handleDiiaRegister = async () => {
-        const clientId = 'YOUR_CLIENT_ID';  // Замените на ваш client_id
-        const redirectUri = Linking.createURL('diia-callback');  // Создаем URL для возврата пользователя в приложение
+        const clientId = 'YOUR_CLIENT_ID';  
+        const redirectUri = Linking.createURL('diia-callback');  
+        
+        //https://id.diia.gov.ua/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid%20profile&state=RANDOM_STATE
         const authorizationUrl = `https://id.diia.gov.ua`;
-    
-        // Открываем браузер для авторизации
+ 
         const result = await WebBrowser.openAuthSessionAsync(authorizationUrl, redirectUri);
         
-        // Проверяем результат
         if (result.type === 'success' && result.url) {
-            const code = getCodeFromUrl(result.url);  // Функция для извлечения кода из URL
-            await handleExchangeToken(code);  // Обмениваем код на токен доступа
+            const code = getCodeFromUrl(result.url);  
+            await handleExchangeToken(code);  
         } else {
             Alert.alert('Помилка', 'Не вдалося завершити реєстрацію через Дію');
         }
     };
     
-    // Функция для извлечения кода авторизации из URL
     const getCodeFromUrl = (url) => {
         const params = new URLSearchParams(url.split('?')[1]);
         return params.get('code');
     };
     
-    // Функция для обмена кода на токен доступа
     const handleExchangeToken = async (code) => {
         try {
             const tokenResponse = await fetch('https://id.diia.gov.ua/token', {
@@ -81,7 +78,6 @@ export default function RegisterScreen({ navigation }) {
     
             const tokenData = await tokenResponse.json();
             if (tokenData.access_token) {
-                // Используем токен для запроса данных пользователя
                 await fetchUserData(tokenData.access_token);
             } else {
                 Alert.alert('Помилка', 'Не вдалося отримати токен доступу');
@@ -91,7 +87,6 @@ export default function RegisterScreen({ navigation }) {
         }
     };
     
-    // Функция для получения данных пользователя с помощью токена
     const fetchUserData = async (accessToken) => {
         try {
             const userDataResponse = await fetch('https://id.diia.gov.ua/userinfo', {
@@ -103,9 +98,9 @@ export default function RegisterScreen({ navigation }) {
     
             const userData = await userDataResponse.json();
             if (userData) {
-                // Логика для обработки данных пользователя
+                // логика для обработки данных пользователя
                 Alert.alert('Успіх', `Користувач: ${userData.name}`);
-                // Здесь вы можете использовать эти данные для регистрации или входа
+                // здесь будет использоваться логинка этих данных для регистрации 
             } else {
                 Alert.alert('Помилка', 'Не вдалося отримати дані користувача');
             }
@@ -175,12 +170,10 @@ export default function RegisterScreen({ navigation }) {
                     placeholderTextColor={colorScheme === 'dark' ? '#aaa' : '#888'}
                 />
                 
-                {/* Кнопка для стандартной регистрации */}
                 <TouchableOpacity style={styles.button} onPress={handleRegister}>
                     <Text style={styles.buttonText}>Зареєструватися</Text>
                 </TouchableOpacity>
 
-                {/* Кнопка для регистрации через Дію */}
                 <TouchableOpacity style={styles.diiaButton} onPress={handleDiiaRegister}>
                     <Text style={styles.diiaButtonText}>Зареєструватися через Дію</Text>
                 </TouchableOpacity>
