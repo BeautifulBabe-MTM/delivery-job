@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, useColorScheme, Alert } from 'react-native';
+import * as WebBrowser from 'expo-web-browser';  
+import * as Linking from 'expo-linking';
+
 
 export default function RegisterScreen({ navigation }) {
     const [email, setEmail] = useState('');
@@ -37,13 +40,80 @@ export default function RegisterScreen({ navigation }) {
             } catch (error) {
                 Alert.alert('Помилка 🚫', `Невдала спроба під'єднатися до серверу`);
             }
-
-            navigation.navigate('Welcome');
         } else {
             alert('Passwords do not match');
         }
     };
 
+    const handleDiiaRegister = async () => {
+        const clientId = 'YOUR_CLIENT_ID';  // Замените на ваш client_id
+        const redirectUri = Linking.createURL('diia-callback');  // Создаем URL для возврата пользователя в приложение
+        const authorizationUrl = `https://id.diia.gov.ua/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid%20profile&state=RANDOM_STATE`;
+    
+        // Открываем браузер для авторизации
+        const result = await WebBrowser.openAuthSessionAsync(authorizationUrl, redirectUri);
+        
+        // Проверяем результат
+        if (result.type === 'success' && result.url) {
+            const code = getCodeFromUrl(result.url);  // Функция для извлечения кода из URL
+            await handleExchangeToken(code);  // Обмениваем код на токен доступа
+        } else {
+            Alert.alert('Помилка', 'Не вдалося завершити реєстрацію через Дію');
+        }
+    };
+    
+    // Функция для извлечения кода авторизации из URL
+    const getCodeFromUrl = (url) => {
+        const params = new URLSearchParams(url.split('?')[1]);
+        return params.get('code');
+    };
+    
+    // Функция для обмена кода на токен доступа
+    const handleExchangeToken = async (code) => {
+        try {
+            const tokenResponse = await fetch('https://id.diia.gov.ua/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `grant_type=authorization_code&code=${code}&redirect_uri=${redirectUri}&client_id=${clientId}&client_secret=YOUR_CLIENT_SECRET`
+            });
+    
+            const tokenData = await tokenResponse.json();
+            if (tokenData.access_token) {
+                // Используем токен для запроса данных пользователя
+                await fetchUserData(tokenData.access_token);
+            } else {
+                Alert.alert('Помилка', 'Не вдалося отримати токен доступу');
+            }
+        } catch (error) {
+            Alert.alert('Помилка', 'Помилка при обміні токенів');
+        }
+    };
+    
+    // Функция для получения данных пользователя с помощью токена
+    const fetchUserData = async (accessToken) => {
+        try {
+            const userDataResponse = await fetch('https://id.diia.gov.ua/userinfo', {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+    
+            const userData = await userDataResponse.json();
+            if (userData) {
+                // Логика для обработки данных пользователя
+                Alert.alert('Успіх', `Користувач: ${userData.name}`);
+                // Здесь вы можете использовать эти данные для регистрации или входа
+            } else {
+                Alert.alert('Помилка', 'Не вдалося отримати дані користувача');
+            }
+        } catch (error) {
+            Alert.alert('Помилка', 'Помилка при отриманні даних користувача');
+        }
+    };
+    
     const styles = colorScheme === 'dark' ? darkStyles : lightStyles;
 
     return (
@@ -59,7 +129,7 @@ export default function RegisterScreen({ navigation }) {
                     autoCapitalize="none"
                     placeholderTextColor={colorScheme === 'dark' ? '#aaa' : '#888'}
                 />
-                 <TextInput
+                <TextInput
                     style={styles.input}
                     placeholder="Номер телефону"
                     value={phoneNumber}
@@ -104,9 +174,17 @@ export default function RegisterScreen({ navigation }) {
                     autoCapitalize="none"
                     placeholderTextColor={colorScheme === 'dark' ? '#aaa' : '#888'}
                 />
+                
+                {/* Кнопка для стандартной регистрации */}
                 <TouchableOpacity style={styles.button} onPress={handleRegister}>
                     <Text style={styles.buttonText}>Зареєструватися</Text>
                 </TouchableOpacity>
+
+                {/* Кнопка для регистрации через Дію */}
+                <TouchableOpacity style={styles.diiaButton} onPress={handleDiiaRegister}>
+                    <Text style={styles.diiaButtonText}>Зареєструватися через Дію</Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Login')}>
                     <Text style={styles.linkText}>Вже є обліковий запис? Увійдіть</Text>
                 </TouchableOpacity>
@@ -156,6 +234,18 @@ const lightStyles = StyleSheet.create({
         marginVertical: 10,
     },
     buttonText: {
+        color: '#ffffff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    diiaButton: {
+        backgroundColor: '#28a745',
+        paddingVertical: 15,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    diiaButtonText: {
         color: '#ffffff',
         fontSize: 16,
         fontWeight: 'bold',
@@ -212,6 +302,18 @@ const darkStyles = StyleSheet.create({
         marginVertical: 10,
     },
     buttonText: {
+        color: '#ffffff',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    diiaButton: {
+        backgroundColor: '#28a745',
+        paddingVertical: 15,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    diiaButtonText: {
         color: '#ffffff',
         fontSize: 16,
         fontWeight: 'bold',
