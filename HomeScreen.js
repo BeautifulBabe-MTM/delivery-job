@@ -27,7 +27,7 @@ export default function HomeScreen() {
 
       <View style={[styles.infoContainer, isDarkTheme && styles.infoContainerDark]}>
         <Text style={[styles.infoTitle, isDarkTheme && styles.textDark]}>Заробіток за сьогодні:</Text>
-        <Text style={[styles.infoValue, isDarkTheme && styles.textHighlightDark]}>₴ 0.00</Text>
+        <Text style={[styles.infoValue, isDarkTheme && styles.textHighlightDark]}>₴ 4398.90</Text>
       </View>
 
       <View style={[styles.infoContainer, isDarkTheme && styles.infoContainerDark]}>

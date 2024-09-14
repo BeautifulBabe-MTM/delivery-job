@@ -129,8 +129,8 @@ export default function DeliveriesScreen() {
             <Text style={styles.modalTitle}>Замовлення №{orderInfo.id}</Text>
             <Text style={styles.modalText}>Клієнт: {orderInfo.clientName}</Text>
             <Text style={styles.modalText}>Адреса: {orderInfo.address}</Text>
-            <Text style={styles.modalText}>Деталі: {orderInfo.details}</Text>
             <Text style={styles.modalText}>Потрібна машина: {orderInfo.category}</Text>
+            <Text style={styles.modalText}>Деталі: {orderInfo.details}</Text>
           </View>
           <View style={styles.modalContentCenter}>
             <View style={styles.modalButtons}>

@@ -48,7 +48,7 @@ export default function RegisterScreen({ navigation }) {
     const handleDiiaRegister = async () => {
         const clientId = 'YOUR_CLIENT_ID';  // Замените на ваш client_id
         const redirectUri = Linking.createURL('diia-callback');  // Создаем URL для возврата пользователя в приложение
-        const authorizationUrl = `https://id.diia.gov.ua/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=code&scope=openid%20profile&state=RANDOM_STATE`;
+        const authorizationUrl = `https://id.diia.gov.ua`;
     
         // Открываем браузер для авторизации
         const result = await WebBrowser.openAuthSessionAsync(authorizationUrl, redirectUri);
